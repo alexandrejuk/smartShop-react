@@ -1,0 +1,26 @@
+.button {
+  margin-top: 16px;
+  border: none;
+  background:  #0083CA;
+  border-bottom: 3px solid  #0083CA;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 16px 35px;
+  height: auto;
+  width: 100%;
+  transition: all ease-in-out;
+}
+.button:hover {
+  opacity: 0.85;
+  border-bottom: 3px solid #004C75;
+}
+.button:focus {
+  outline: none;
+}
+.button:active {
+  border-bottom-color:  #0083CA;
+}
