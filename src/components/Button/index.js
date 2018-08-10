@@ -5,7 +5,7 @@ import './index.css'
 export default class Button extends Component {
   render() { 
     const { text } = this.props;
-    return (<button class="button">{ text }</button>)
+    return (<button className="button">{ text }</button>)
   }
 }
 

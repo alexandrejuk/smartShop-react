@@ -1,30 +1,27 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import './index.css'
 
 export default class Header extends Component {
   render() { 
     return ( 
-      <div class="wrapper">
-        <div class="navBar">
-          <div class="logo">
-            <strong> <a class="linkNav">SmartSHOP</a></strong>
+      <div className="wrapper">
+        <div className="navBar">
+          <div className="logo">
+            <strong className="linkNav"><Link className="linkNav" to='/'>SmartSHOP</Link></strong>
           </div>
-          <ul class="menu">
-            <li class="menuItem"><a class="linkNav">Briquedos</a></li>
-            <li class="menuItem"><a class="linkNav">Esportes</a></li>
-            <li class="menuItem"><a class="linkNav">Livros</a></li>
-            <li class="menuItem"><a class="linkNav">Ofertas</a></li>
+          <ul className="menu">
+            <li className="menuItem"><Link className="linkNav" to='/products'>Briquedos</Link></li>
+            <li className="menuItem"><a className="linkNav">Esportes</a></li>
+            <li className="menuItem"><a className="linkNav">Livros</a></li>
+            <li className="menuItem"><a className="linkNav">Ofertas</a></li>
           </ul>
-          <div class="avatar">
-            <img class="avatarPicture" src="http://fortunetech.com.bd/wp-content/uploads/2018/02/testmonial-default.png" alt="avatar" />
-            <h4 class="login">Entrar</h4>
+          <div className="avatar">
+            <img className="avatarPicture" src="http://fortunetech.com.bd/wp-content/uploads/2018/02/testmonial-default.png" alt="avatar" />
+            <h4 className="login">Entrar</h4>
           </div>
         </div>
       </div>
      )
   }
-}
-
-Header.propTypes = {
 }
