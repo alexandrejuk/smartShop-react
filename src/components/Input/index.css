@@ -1,0 +1,56 @@
+.inputWrapper {
+  margin: 10px ;
+}
+.label {
+  color: #6c757d;
+  display: block;
+}
+.input-group {
+  color: #6c757d;
+  padding: 16px;
+  font-size: 1em;
+  border: 1px solid #e1e1e1;
+}
+.input-group:hover {
+  border-color: #70c9d9;
+}
+.input-group::-webkit-outer-spin-button,
+.input-group::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input-group:focus {
+  outline: none;
+  border-color: #0083CA;
+}
+ /* size of inputs */
+.inputSizeSecurityCode {
+  width: 144px;
+}
+.inputSize-1 {
+  width: 100px;
+}
+.inputSize-2 {
+  width: 200px;
+}
+.inputSize-3 {
+  width: 300px;
+}
+.inputSize-4 {
+  width: 400px;
+}
+.inputSize-5 {
+  width: 500px;
+}
+.inputSize-6 {
+  width: 600px;
+}
+.inputSize-7 {
+  width: 700px;
+}
+.inputSize-8 {
+  width: 800px;
+}
+.inputSize-9 {
+  width: 900px;
+}
