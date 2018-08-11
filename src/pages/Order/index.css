@@ -1,11 +1,48 @@
 .header-main-order, .body-main-order {
-  width: 992px;
+  width: 1080px;
   margin: 40px auto;
 }
 .body-main-order {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 .body-content-order {
-  width: 446px;
+  width: 540px;
+  margin: 0 auto;
+}
+.dropDown {
+  margin: 20px;
+}
+.dropDown-header {
+  background: #e7e7e7;
+  border: 2px solid #e7e7e7;
+  padding: 20px 35px;
+}
+.dropDown-text {
+  color: #9f9fae;
+}
+.dropDown-body {
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+}
+.product-header, .product-body {
+  width: 500px;
+  display: flex;
+  padding: 20px;
+  border-bottom: 5px solid #f0f0f0;
+}
+.product-body {
+  align-items: center;
+  justify-content: space-around;
+  border-bottom: none;
+  padding-bottom: 20px;
+}
+.product {
+  width: auto;
+  height: 150px;
+}
+.product-description {
+  margin-left: 20px;
 }
