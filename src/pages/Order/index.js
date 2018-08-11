@@ -70,6 +70,7 @@ export default class Order extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClickDropDown = this.handleClickDropDown.bind(this)
+    this.handleClickDropDownHeader = this.handleClickDropDownHeader.bind(this)
   }
 
   handleChange = ($event) =>  {
@@ -117,6 +118,25 @@ export default class Order extends Component {
         break;
     }
   }
+
+  handleClickDropDownHeader(value) {
+    const { dropDown } = this.state
+    const dropDownObject = {
+      customer: false,
+      billing: false,
+      shipping: false,
+      payment: false,
+    }
+    return this.setState(
+      {
+        dropDown: {
+          ...dropDownObject, 
+          [value]: !dropDown[value],
+        }
+      }
+    )
+  }
+
 
   renderCustomerForm = () => {
     if (this.state.dropDown.customer) {
@@ -317,7 +337,7 @@ export default class Order extends Component {
         <div className="body-main-order">
           <div className="body-content-order">
             <div className="dropDown">
-              <div className="dropDown-header">
+              <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('customer')}>
                 <h2 className="dropDown-text">Dados Pessoais</h2>
               </div>
               <div className="dropDown-body">
@@ -326,7 +346,7 @@ export default class Order extends Component {
             </div>
 
             <div className="dropDown">
-              <div className="dropDown-header">
+              <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('billing')}>
                 <h2 className="dropDown-text">Endereço de Conbrança</h2>
               </div>
               <div className="dropDown-body">
@@ -335,7 +355,7 @@ export default class Order extends Component {
             </div>
 
             <div className="dropDown">
-              <div className="dropDown-header">
+              <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('shipping')}>
                 <h2 className="dropDown-text">Endereço de Entrega</h2>
               </div>
               <div className="dropDown-body">
@@ -343,7 +363,7 @@ export default class Order extends Component {
               </div>
             </div>
             <div className="dropDown">
-              <div className="dropDown-header">
+              <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('payment')}>
                 <h2 className="dropDown-text">Pagamento</h2>
               </div>
               <div className="dropDown-body">
