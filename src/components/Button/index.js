@@ -2,15 +2,26 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './index.css'
 
-const Button = () => {
-  const { text } = this.props;
-  return (
-    <button className="button">{ text }</button>
-  )
+export default class Button extends Component{
+
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick = $event => {
+    const { onClick, value } = this.props
+    return onClick(value)
+  }
+
+  render () {
+    const { children } = this.props
+    return (<button className="button" onClick={this.handleClick}> { children } </button>)
+  }
 }
 
 Button.propTypes = {
-  text: PropTypes.string.isRequired,
+  children: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
 }
-
-export default Button

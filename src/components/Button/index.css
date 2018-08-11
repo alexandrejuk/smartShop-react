@@ -15,7 +15,7 @@
   transition: all ease-in-out;
 }
 .button:hover {
-  opacity: 0.85;
+  opacity: .9;
   border-bottom: 3px solid #004C75;
 }
 .button:focus {
