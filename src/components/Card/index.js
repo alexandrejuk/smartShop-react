@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import './index.css'
@@ -10,45 +10,45 @@ export default class Card extends Component {
     this.itemCard = this.itemCard.bind(this);
   }
   informationCard = () => (
-    <React.Fragment>
+    <Fragment>
       <div className="information-content">
-        <img className="icon" src="https://freeiconshop.com/wp-content/uploads/edd/creditcard-flat.png" alt="credit-card" />
+      <img  className="icon" src={require('../../assets/img/icons/creditcard-flat.png')} alt="credit-card"/>
         <h3  className="information-text">Até 03x Sem Juros</h3>
       </div>
       <div className="information-content">
-        <img className="icon" src="https://cdn3.iconfinder.com/data/icons/purchases-and-sales/512/transpo.png" alt="shipping" />
+        <img className="icon" src={require('../../assets/img/icons/transpo.png')} alt="shipping" />
         <h3  className="information-text">Frete para todo o BR</h3>
         </div>
       <div className="information-content">
-        <img className="icon" src="https://freeiconshop.com/wp-content/uploads/edd/wallet-flat.png" alt="cash-boleto" />
+        <img className="icon" src={require('../../assets/img/icons/wallet-flat.png')} alt="cash-boleto" />
         <h3 className="information-text">À vista no boleto bancário</h3>
-        </div>
-    </React.Fragment>
+      </div>
+    </Fragment>
   )
   
-  itemCard = () => {
-    const { product } = this.props
+  itemCard = (product) => {
+    const { imagePath } = product
     return (
-      <React.Fragment>
-        <Link className="linkNav" to={`/order/product/${ product.id }`}>
+      <Fragment>
+        <Link className="linkNav" to={`/order/product/${product.id}`}>
           <div className="item-header">
-            <img className="image" src="http://appsisecommerces3.s3.amazonaws.com/clientes/cliente3448/produtos/15594/L4982.jpg" alt="item" />
+            <img className="image" src={require(`../../assets/img/products/${imagePath}`)} alt="item" />
           </div>
           <div className="item-content">
             <h1>R$ { product.price }</h1>
             <h3>{ product.description }</h3>
           </div>
         </Link>
-      </React.Fragment>
+      </Fragment>
     )
   }
   
-  cardType = (type) => {
+  cardType = ({ type, product }) => {
     switch (type) {
       case 'information':
         return this.informationCard()
       default:
-      return this.itemCard
+      return this.itemCard(product)
     }
   }
 
@@ -56,7 +56,7 @@ export default class Card extends Component {
     const { type } = this.props
     return (
       <div className={`card ${ type }`}>
-        {this.cardType(type)}
+        {this.cardType(this.props)}
       </div>
     )
   } 
