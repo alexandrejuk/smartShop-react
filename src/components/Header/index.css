@@ -6,8 +6,8 @@
   background: #FFF06A;
   margin: 0 auto;
   display: flex;
-  min-width: 992px;
-  max-width: 992px;
+  min-width: 1080px;
+  max-width: 1080px;
   align-items: center;
   padding: 12px 0;
 }
