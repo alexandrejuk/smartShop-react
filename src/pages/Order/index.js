@@ -71,6 +71,8 @@ export default class Order extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleClickDropDown = this.handleClickDropDown.bind(this)
     this.handleClickDropDownHeader = this.handleClickDropDownHeader.bind(this)
+    this.handleSave = this.handleSave.bind(this)
+
   }
 
   handleChange = ($event) =>  {
@@ -315,11 +317,15 @@ export default class Order extends Component {
             type='text' 
             onBlur={this.handleChange}
           />
-         <Button value='payment' onClick={this.handleClickDropDown}>Finalizar Comprar</Button>
+         <Button value='payment' onClick={this.handleSave}>Finalizar Comprar</Button>
         </Fragment>
       )
     }
     return;
+  }
+
+  handleSave() {
+    console.log(this.state)
   }
 
   render() {
@@ -329,10 +335,7 @@ export default class Order extends Component {
 
     return <main className="main-container">
         <div className="header-main-order">
-          <h1>
-            Finalizar Pedido {this.state.customer.name}
-            {this.state.customer.email}
-          </h1>
+          <h1>Finalizar Compra</h1>
         </div>
         <div className="body-main-order">
           <div className="body-content-order">
@@ -382,7 +385,7 @@ export default class Order extends Component {
                  <div className="product-description">
                    <h2><strong>{ product.description }</strong></h2>
                    <h3>R$ { price }</h3>
-                   <p><strong>Vendedor </strong> { product.saleman}</p>
+                   <p><strong>Vendedor </strong> { product.salesman}</p>
                    <p><strong>Estado </strong> { product.situation}</p>
                  </div>
                 </div>
