@@ -1,0 +1,108 @@
+{
+  "products" :[
+  {
+    "id": "1",
+    "description": "Patins Street Razors",
+    "price": 500.00,
+    "imagePath": "/assets/img/products/razors-street.jpg",
+    "quantity": 1,
+    "situation": "usado",
+    "color": "black",
+    "information": "Patins com a qualidade Razor, o modelo fit é indicado para superfícies lisas e planas. Moderno e reforçado, o patins fit agrada por sua excelente durabilidade e conforto",
+    "size": "8",
+    "saleman": "Obi Wan Kenobi",
+    "important": "Produto usado poucas vezes e está em ótmio estado!"
+  },
+  {
+    "id": "2",
+    "description": "Book Harry Potter",
+    "price": 20.00,
+    "imagePath": "/assets/img/products/book-hp.jpg",
+    "quantity": 1,
+    "situation": "usado",
+    "color": null,
+    "information": "It was always difficult being Harry Potter and it isn’t much easier now that he is an overworked employee of the Ministry of Magic, a husband, and father of three school-age children.",
+    "size": null,
+    "saleman": "Obi Wan Kenobi",
+    "important": "Produto usado poucas vezes e está em ótmio estado!"
+  },
+  {
+    "id": "3",
+    "description": "Boneco Castiel",
+    "price": 100.00,
+    "imagePath": "/assets/img/products/castiel.jpg",
+    "quantity": 1,
+    "situation": "usado",
+    "color": null,
+    "information": "Funko bobble head pop!",
+    "size": null,
+    "saleman": "Obi Wan Kenobi",
+    "important": "Produto usado poucas vezes e está em ótmio estado!"
+  },
+  {
+    "id": "4",
+    "description": "Salto Alto ",
+    "price": 55.00,
+    "imagePath": "/assets/img/products/salto.jpeg",
+    "quantity": 1,
+    "situation": "usado",
+    "color": "Preto",
+    "information": "Sapato de festa, comprado pra usar em um casamento, os noivos separam e não fui na festa!",
+    "size": "38",
+    "saleman": "Obi Wan Kenobi",
+    "important": "Produto usado poucas vezes e está em ótmio estado!"
+  },
+  {
+    "id": "5",
+    "description": "Ipad 3 - 32 GB",
+    "price": 900.00,
+    "imagePath": "/assets/img/products/ipad.png",
+    "quantity": 1,
+    "situation": "usado",
+    "color": null,
+    "information": "Ipad 3, Memória Flash 32 GB, com Wifi + 3G ou 4G Modelo A1430 Tablet da Apple com Imei liberado aparelho original Ipad usado EM ÓTIMO ESTADO",
+    "size": null,
+    "saleman": "Tony Stark",
+    "important": "Produto usado poucas vezes e está em ótmio estado!"
+  },
+  {
+    "id": "6",
+    "description": "Cadeirinha Auto Peg",
+    "price": 87.00,
+    "imagePath": "/assets/img/products/cadeira-bebe.jpg",
+    "quantity": 1,
+    "situation": "usado",
+    "color": "Preto e Cinza",
+    "information": "Cadeirinha Auto Peg Perego Primo Viaggio 0+1\n Tem sistema de proteção Side Impact Protection ajustável contra impactos laterais.",
+    "size": "56cm x 35cm",
+    "saleman": "Tony Stark",
+    "important": "Produto usado poucas vezes e está em ótmio estado!"
+  },
+  {
+    "id": "7",
+    "description": "Bola + Colchonete",
+    "price": 290.00,
+    "imagePath": "/assets/img/products/academia.jpg",
+    "quantity": 1,
+    "situation": "usado",
+    "color": null,
+    "information": "Academia Polimet completa com 22kl, acompanha 1 bola Pilates 65cm, vem com bomba para enche-la, 2 pesos de 4kl (um emborrachado e outro pintado) cada, 02 barras com presilhas, 1 colchonete Gonew na cor azul bem acolchoado.",
+    "size": null,
+    "saleman": "Obi Wan Kenobi",
+    "important": "Produto usado poucas vezes e está em ótmio estado!"
+  },
+  {
+    "id": "8",
+    "description": "Jogos Ps4",
+    "price": 260.00,
+    "imagePath": "/assets/img/products/game-ps4.jpg",
+    "quantity": 1,
+    "situation": "usado",
+    "color": null,
+    "information": "3 jogos de ps4 novinhos, pouco usado.",
+    "size": null,
+    "saleman": "Obi Wan Kenobi",
+    "important": "Produto usado poucas vezes e está em ótmio estado!"
+  }
+  ]
+}

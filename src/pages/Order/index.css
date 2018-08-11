@@ -1,0 +1,11 @@
+.header-main-order, .body-main-order {
+  width: 992px;
+  margin: 40px auto;
+}
+.body-main-order {
+  display: flex;
+  flex-wrap: wrap;
+}
+.body-content-order {
+  width: 446px;
+}

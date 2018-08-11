@@ -4,7 +4,7 @@ import './index.css'
 
 export default class Input extends Component {
   render() { 
-    const { name, sizeInput, text, type } = this.props;
+    const { name, sizeInput, text, type } = this.props
     return ( 
       <div className="inputWrapper">
         <label className="label">{text}</label>

@@ -2,35 +2,14 @@
 .wrapper {
   background: #FFF06A;
 }
-
 .navBar {
   background: #FFF06A;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
   min-width: 992px;
   max-width: 992px;
   align-items: center;
   padding: 12px 0;
-}
-.menu {
-  display: flex;
-  flex-wrap: wrap;
-}
-.menuItem {
-  font-size: 1.2em;
-  padding: 0 20px;
-  list-style: none;
-  cursor: pointer;
-  color: #343a40;
-}
-.login {
-   color: #343a40;
-   cursor: pointer;
-}
-.menuItem:hover, .login:hover {
-  color: #343a40;
-  text-decoration: underline;
 }
 .logo {
   color: #343a40;
@@ -38,17 +17,7 @@
   font-size: 1.6em;
   cursor: pointer;
 }
-.avatar {
-  display: flex;
-  padding: 0 20px;
-  align-items: center;
-}
-.avatarPicture {
-  margin-right: 20px;
-  max-width: 45px;
-  max-height: 45px;
-}
 .linkNav {
-  color: #343a40;
   text-decoration: none;
+  color: #343a40;
 }

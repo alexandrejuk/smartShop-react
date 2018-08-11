@@ -1,16 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Switch, Route } from 'react-router-dom'
 
+// components
 import Header from './components/Header'
-import Main from './containers/Main'
 
-export default class App extends Component {
-  render() {
-    return (
-      <div>
-        <Header />
-        <Main />
-      </div>
-    );
-  }
-}
+// pages
+import Home from './pages/Home'
+import Order from './pages/Order'
 
+const App = props => (
+  <div>
+    <Header />
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/order/product/:id" component={Order} />
+    </Switch>
+  </div>
+)
+
+export default App
