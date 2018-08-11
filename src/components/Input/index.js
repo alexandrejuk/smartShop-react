@@ -25,11 +25,10 @@ export default class Input extends Component {
       <div className="inputWrapper">
         <label className="label">{label}</label>
         <input 
-          id="cliente"
+          id={id ? id : null}
           className={`input-group ${ className }`} 
           name={name} 
           type={type} 
-          id={id}
           onBlur={this.handleBlur}
         />
       </div>
