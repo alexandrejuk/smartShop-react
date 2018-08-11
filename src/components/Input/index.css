@@ -1,5 +1,5 @@
 .inputWrapper {
-  margin: 10px ;
+  margin: 10px;
 }
 .label {
   color: #6c757d;
@@ -24,20 +24,17 @@
   border-color: #0083CA;
 }
  /* size of inputs */
-.inputSizeSecurityCode {
-  width: 144px;
-}
 .inputSize-1 {
-  width: 100px;
+  width: 80px;
 }
 .inputSize-2 {
-  width: 200px;
+  width: 165px;
 }
 .inputSize-3 {
-  width: 300px;
+  width: 250px;
 }
 .inputSize-4 {
-  width: 400px;
+  width: 380px;
 }
 .inputSize-5 {
   width: 500px;
