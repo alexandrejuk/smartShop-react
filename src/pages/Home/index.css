@@ -3,10 +3,11 @@
   background: #d41022;
 }
 .header-image, .body-main, .information {
-  width: 992px;
+  width: 1080px;
   margin: 0 auto;
 }
 .body-main {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
 }

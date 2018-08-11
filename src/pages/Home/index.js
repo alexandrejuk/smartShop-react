@@ -23,6 +23,7 @@ export default class Home extends Component {
   }
 
   render() {
+    const { products } = this.state
     return (
       <main className="main-container">
         <div className="header-main">
@@ -33,7 +34,13 @@ export default class Home extends Component {
         <div className="information">
           <Card type="information"/>
         </div>
-        <div className="body-main"> </div>
+        <div className="body-main">
+          {
+            products.map(
+              product => <Card key={product.id} type="item" product={product}/>
+            )
+          }
+        </div>
       </main>
     )
   }
