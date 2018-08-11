@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import './index.css'
 
+import ParsePrice from '../../utils/price'
+
 export default class Card extends Component {
 
   constructor(props) {
@@ -28,6 +30,7 @@ export default class Card extends Component {
   
   itemCard = (product) => {
     const { imagePath } = product
+    const price = ParsePrice(product.price)
     return (
       <Fragment>
         <Link className="linkNav" to={`/order/product/${product.id}`}>
@@ -35,7 +38,7 @@ export default class Card extends Component {
             <img className="image" src={require(`../../assets/img/products/${imagePath}`)} alt="item" />
           </div>
           <div className="item-content">
-            <h1>R$ { product.price }</h1>
+            <h1>R$ { price }</h1>
             <h3>{ product.description }</h3>
           </div>
         </Link>

@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import './index.css'
 import axios from 'axios';
 
+import ParsePrice from '../../utils/price'
+
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 
@@ -58,7 +60,7 @@ export default class Order extends Component {
           zipcode:  null,
         }
       },
-      items: [ ],
+      items: [],
       dropDown: {
         customer: true,
         billing: false,
@@ -206,7 +208,7 @@ export default class Order extends Component {
     if (this.state.dropDown.shipping) {
       return (
         <Fragment>
-           <Input 
+           <Input ParsePrice
             id='shipping'
             name='zipcode' 
             className='inputSize-2' 
@@ -303,6 +305,7 @@ export default class Order extends Component {
   render() {
     const { product } = this.state
     const imagePath = product.imagePath ? product.imagePath : 'default.png'
+    const price = product.price ? ParsePrice(product.price) : '0,00'
 
     return <main className="main-container">
         <div className="header-main-order">
@@ -358,14 +361,14 @@ export default class Order extends Component {
                   <img className="product" src={require(`../../assets/img/products/${imagePath}`)} alt="item-product" />
                  <div className="product-description">
                    <h2><strong>{ product.description }</strong></h2>
-                   <h3>R$ { product.price }</h3>
+                   <h3>R$ { price }</h3>
                    <p><strong>Vendedor </strong> { product.saleman}</p>
                    <p><strong>Estado </strong> { product.situation}</p>
                  </div>
                 </div>
                 <div className="product-body">
                   <h1>Total</h1>
-                  <h1>R$ { product.price }</h1>
+                  <h1>R$ { price }</h1>
                 </div>
               </div>
             </div>
@@ -378,7 +381,20 @@ export default class Order extends Component {
     const { match: { params: { id } } } = this.props;
     return axios.get(`http://localhost:3002/products/${id}`)
       .then(response => response.data)
-      .then(product =>this.setState({ product }))
+      .then(product =>
+        this.setState({ 
+          product, 
+          amount: product.price, 
+          items: [
+            {
+              id: product.id,
+              title: product.description,
+              unit_price: product.price,
+              quantity: product.quantity,
+              tangible: true
+            }
+          ]
+        }))
   }
 
 }
