@@ -1,11 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import './index.css'
-import axios from 'axios'
-import pagarme from 'pagarme'
 
+// services
+import fetchCardHash from '../../services/cardHash'
+import { fetchProduct } from '../../services/product'
+
+import TransactionSpec from '../../utils/transactionSpec'
+
+import { formBilling, formCustomer, formPayment } from '../../utils/form-control'
 import ParsePrice from '../../utils/price'
 import split_rules from '../../utils/split_rule' 
-import fetch from 'node-fetch';
 
 import Button from '../../components/Button'
 import Input from '../../components/Input'
@@ -23,19 +27,14 @@ export default class Order extends Component {
       card_expiration_date: '',
       card_holder_name: '',
       customer: {
-        external_id: '',
+        external_id: '#1212345679',
         name: '',
         type: 'individual',
         country: 'br',
         email: '',
-        documents: [
-          {
-            type: 'cpf',
-            number: '',
-          }
-        ],
-        phone_numbers: [],
-        birthday: '',
+        documents: [{ type: 'cpf', number: '96065790184'}],
+        phone_numbers: ['+5511987654321'],
+        birthday: '1994-05-05',
       },
       billing: {
         name: '',
@@ -50,10 +49,10 @@ export default class Order extends Component {
         }
       },
       items: [],
+      split_rules,
       dropDown: {
         customer: true,
         billing: false,
-        shipping: false,
         payment: false,
       }
     }
@@ -64,70 +63,56 @@ export default class Order extends Component {
   }
 
   componentDidMount() {
-    return this.fetchProduct()
+    fetchProduct(this.props.match.params.id)
+      .then(product => this.setState({ product }))
   }
 
-  fetchProduct() {
-    const { match: { params: { id } } } = this.props;
-    return axios.get(`http://localhost:3002/products/${id}`)
-      .then(response => response.data)
-      .then(product =>
-        this.setState({ 
-          product, 
-          amount: product.price, 
-          items: [
-            {
-              id: product.id,
-              title: product.description,
-              unit_price: product.price,
-              quantity: product.quantity,
-              tangible: true
-            }
-          ]
-        }))
+  handleSave() {
+    this.sendNewTransaction()
+
+    // const card_credit = {
+    //   card_number: this.state.card_number.slice(0,16),
+    //   card_holder_name:  this.state.card_holder_name,
+    //   card_expiration_date:  this.state.card_expiration_date.slice(0,4),
+    //   card_cvv:  this.state.card_cvv.slice(0,3),
+    // }
+    // return fetchCardHash(card_credit)
+    //   .then(card_hash => {
+    //     this.setState({ card_hash })
+    //     this.sendNewTransaction()
+    //   })
   }
 
-  fetchCardHash(card_credit) {
-    pagarme.client.connect({ encryption_key: 'ek_test_8Tevcd9yfp9BORb0l5WhVdnK3OTCOL' })
-    .then(client => client.security.encrypt(card_credit))
-    .then(card_hash => {
-      this.setState({ card_hash })
-      if(card_hash) {
-        return this.sendNewTransaction()
-      }
-    })
+  sendNewTransaction() {
+    console.log(TransactionSpec(this.state))
+    // const url = 'https://api.pagar.me/1/transactions?api_key=ak_test_jwnUVcRJ0V4k3Py6K1qniuxOFNZqvl'
+    // return axios.post(url, transaction).then(res => console.log(res))
   }
 
-
-  fetchZipcode() {
-   const url = `https://viacep.com.br/ws/09784385/json`;
-    fetch(url)
-      .then(res => res.text())
-      .then(body => console.log(body));
+  setStateCustomer = ({ id, name, value }) => {
+    return this.setState({ [id]: { ...this.state[id], [name]: value } })
   }
 
-  replaceZipconde = zipcode => zipcode.replace(/\D/g, '')
+  setStateBilling = ({ id, name, value }) => {
+    return this.setState({ 
+      [id]: { 
+        ...this.state[id], 
+        name: this.state.name,
+        address: { ...this.state[id].address, [name]: value } 
+      } 
+    }) 
+  }
 
   handleChange = ($event) =>  {
     const { id, name, value } = $event.target;
-    if (!id) {
-      return this.setState({ [name]: value })
+    switch (id) {
+      case 'customer':
+        return this.setStateCustomer($event.target)
+      case 'billing':
+        return this.setStateBilling($event.target)
+      default:
+        return this.setState({ [name]: value })
     }
-
-    if (id === 'customer') {
-      return this.setState({ [id]: { ...this.state[id], [name]: value }})
-    }
-
-    return  this.setState({
-      [id]: { 
-        ...this.state[id],
-        name: this.state.customer.name, 
-        address: {
-          ...this.state[id].address, 
-          [name]: value 
-        }
-      }
-    })
   }
 
   handleClickDropDown(value) {
@@ -174,29 +159,23 @@ export default class Order extends Component {
     )
   }
 
-
   renderCustomerForm = () => {
     if (this.state.dropDown.customer) {
       return (
         <Fragment>
-          <Input
-            id='customer'
-            name='name'
-            className='inputSize-4' 
-            label='Nome Completo' 
-            type='text' 
-            onBlur={this.handleChange}
-            value={this.state.customer.name}
-          />
-          <Input
-            id='customer'
-            name='email' 
-            className='inputSize-4' 
-            label='Email' 
-            type='text' 
-            onBlur={this.handleChange}
-            value={this.state.customer.email}
-          />
+          {formCustomer.map(customer => (
+            <Input 
+              key={customer.id}
+              id={customer.name} 
+              name={customer.input_name}
+              className={customer.className}
+              label={customer.label}
+              type={customer.type}
+              value={this.state.customer[customer.input_name]}
+              onChange={this.handleChange}
+            />
+            )
+          )}
           <Button value='customer' onClick={this.handleClickDropDown}>Continuar</Button>
         </Fragment>
       )
@@ -208,61 +187,33 @@ export default class Order extends Component {
     if (this.state.dropDown.billing) {
       return (
         <Fragment>
-          <Input 
-            id='billing'
-            name='zipcode' 
-            className='inputSize-2' 
-            label='Cep' 
-            type='text' 
-            value={this.state.billing.address.zipcode}
-            onBlur={this.handleChange}
-          />
-          <Input
-            id='billing'
-            name='street' 
-            className='inputSize-3' 
-            label='Rua' 
-            type='text' 
-            value={this.state.billing.address.street}
-            onBlur={this.handleChange}
-          />
-          <Input 
-            id='billing'
-            name='street_number' 
-            className='inputSize-1' 
-            label='Número' 
-            type='text' 
-            value={this.state.billing.address.street_number}
-            onBlur={this.handleChange}
-          />
-          <Input
-            id='billing'
-            name='neighborhood' 
-            className='inputSize-2' 
-            label='Bairro' 
-            type='text' 
-            value={this.state.billing.address.neighborhood}
-            onBlur={this.handleChange}
-          />
-          <Input
-            id='billing'
-            name='city' 
-            className='inputSize-2' 
-            label='Cidade' 
-            type='text' 
-            value={this.state.billing.address.city}
-            onBlur={this.handleChange}
-          />
-          <Input 
-            id='billing'
-            name='state' 
-            className='inputSize-2' 
-            label='Estado' 
-            type='text' 
-            value={this.state.billing.address.state}
-            onBlur={this.handleChange}
-          />
-         <Button value='billing' onClick={this.handleClickDropDown}>Continuar</Button>
+          {formBilling.map(billing => (
+            billing.input_name === 'zipcode' ?
+            <Input 
+              key={billing.id}
+              id={billing.name} 
+              name={billing.input_name}
+              className={billing.className}
+              label={billing.label}
+              type={billing.type}
+              mask={billing.mask}
+              value={this.state.billing.address[billing.input_name]}
+              onChange={this.handleChange}
+            />
+            :
+            <Input 
+              key={billing.id}
+              id={billing.name} 
+              name={billing.input_name}
+              className={billing.className}
+              label={billing.label}
+              type={billing.type}
+              value={this.state.billing.address[billing.input_name]}
+              onChange={this.handleChange}
+            />
+          )
+          )}
+          <Button value='billing' onClick={this.handleClickDropDown}>Continuar</Button>
         </Fragment>
       )
     }
@@ -273,84 +224,38 @@ export default class Order extends Component {
     if (this.state.dropDown.payment) {
       return (
         <Fragment>
-          <Input
-            name='card_number' 
-            className='inputSize-2' 
-            label='Número Cartão' 
-            type='text' 
-            value={this.state.card_number} 
-            onBlur={this.handleChange}
-          />
-          <Input 
-            name='card_holder_name' 
-            className='inputSize-2' 
-            label='Titular' 
-            type='text'
-            value={this.state.card_holder_name}  
-            onBlur={this.handleChange}
-          />
-          <Input
-            name='card_cvv' 
-            className='inputSize-2' 
-            label='CVV' 
-            type='text'
-            value={this.state.card_cvv}
-            onBlur={this.handleChange}
-          />
-          <Input
-            name='card_expiration_date' 
-            className='inputSize-2' 
-            label='Válidade' 
-            type='text'
-            value={this.state.card_expiration_date}
-            onBlur={this.handleChange}
-          />
-         <Button value='payment' onClick={this.handleSave}>Finalizar Comprar</Button>
+          {formPayment.map(payment => (
+              payment.input_name === 'card_holder_name' ?
+              <Input 
+              key={payment.id}
+              id={payment.name} 
+              name={payment.input_name}
+              className={payment.className}
+              label={payment.label}
+              type={payment.type}
+              placeholder={payment.placeholder}
+              value={this.state[payment.input_name]}
+              onChange={this.handleChange}
+            /> :
+            <Input 
+              key={payment.id}
+              id={payment.name} 
+              name={payment.input_name}
+              className={payment.className}
+              label={payment.label}
+              type={payment.type}
+              placeholder={payment.placeholder}
+              value={this.state[payment.input_name]}
+              mask={payment.mask}
+              onChange={this.handleChange}
+            />
+            )
+          )}
+          <Button value='payment' onClick={this.handleSave}>Finalizar Comprar</Button>
         </Fragment>
       )
     }
     return;
-  }
-
-  handleSave() {
-    const card_credit = {
-      card_number: this.state.card_number,
-      card_holder_name:  this.state.card_holder_name,
-      card_expiration_date:  this.state.card_expiration_date,
-      card_cvv:  this.state.card_cvv,
-    }
-    this.fetchCardHash(card_credit)
-
-  }
-
-  sendNewTransaction() {
-    const transaction = {
-      amount: this.state.amount,
-      card_hash: this.state.card_hash,
-      customer: {
-        external_id: '#2525',
-        name: this.state.customer.name,
-        type: 'individual',
-        country: 'br',
-        email: this.state.customer.email,
-        documents: [
-          {
-            type: 'cpf',
-            number: '11111111111',
-          }
-        ],
-        phone_numbers: [
-          '+5511999998888',
-          '+5511888889999'
-      ],
-      birthday: '1965-01-01'
-      },
-      billing: this.state.billing,
-      items: this.state.items,
-      split_rules,
-    }
-    const url = 'https://api.pagar.me/1/transactions?api_key=ak_test_jwnUVcRJ0V4k3Py6K1qniuxOFNZqvl'
-    return axios.post(url, transaction).then(res => console.log(res))
   }
 
   render() {
@@ -358,9 +263,9 @@ export default class Order extends Component {
     const imagePath = product.imagePath ? product.imagePath : 'default.png'
     const price = product.price ? ParsePrice(product.price) : '0,00'
 
-    return <main className="main-container">
+    return (<main className="main-container">
         <div className="header-main-order">
-          <h1>Finalizar Compra</h1>
+          <h1>Finalizar Compra {this.state.card_hash}</h1>
         </div>
         <div className="body-main-order">
           <div className="body-content-order">
@@ -417,6 +322,6 @@ export default class Order extends Component {
           </div> 
 
         </div>
-      </main>;
+      </main>)
   }
 }

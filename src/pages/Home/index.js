@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './index.css'
-import axios from 'axios';
-
+import { fetchProducts } from '../../services/product'
 import ad35Off from '../../assets/img/ad/ad-off-35.png'
 import Card from '../../components/Card'
 
@@ -17,13 +16,8 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    return this.fetchProducts();
-  }
-
-  fetchProducts() {
-    return axios.get(`http://localhost:3002/products`)
-      .then(response => response.data)
-      .then(products => this.setState({ products, loading: false }))
+    fetchProducts()
+      .then(products => this.setState({ products }));
   }
 
   render() {
@@ -41,7 +35,8 @@ export default class Home extends Component {
         <div className="body-main">
           {
             products.map(
-              product => <Card key={product.id} type="item" product={product}/>
+              product => 
+                <Card key={product.id} type="item" product={product}/>
             )
           }
         </div>
