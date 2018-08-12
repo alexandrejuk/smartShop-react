@@ -4,6 +4,7 @@ import './index.css'
 // services
 import fetchCardHash from '../../services/cardHash'
 import { fetchProduct } from '../../services/product'
+import postTransaction from '../../services/transaction'
 
 import TransactionSpec from '../../utils/transactionSpec'
 
@@ -68,25 +69,37 @@ export default class Order extends Component {
   }
 
   handleSave() {
-    this.sendNewTransaction()
-
-    // const card_credit = {
-    //   card_number: this.state.card_number.slice(0,16),
-    //   card_holder_name:  this.state.card_holder_name,
-    //   card_expiration_date:  this.state.card_expiration_date.slice(0,4),
-    //   card_cvv:  this.state.card_cvv.slice(0,3),
-    // }
-    // return fetchCardHash(card_credit)
-    //   .then(card_hash => {
-    //     this.setState({ card_hash })
-    //     this.sendNewTransaction()
-    //   })
+    const card_credit = {
+      card_number: this.state.card_number,
+      card_holder_name:  this.state.card_holder_name,
+      card_expiration_date:  this.state.card_expiration_date,
+      card_cvv:  this.state.card_cvv,
+    }
+    return fetchCardHash(card_credit)
+      .then(card_hash => {
+        this.setState({ card_hash })
+        this.sendNewTransaction()
+      })
   }
 
   sendNewTransaction() {
-    console.log(TransactionSpec(this.state))
-    // const url = 'https://api.pagar.me/1/transactions?api_key=ak_test_jwnUVcRJ0V4k3Py6K1qniuxOFNZqvl'
-    // return axios.post(url, transaction).then(res => console.log(res))
+    const formattedTransaction = {
+      ...this.state,
+      amount: this.state.product.price,
+      items: [
+        {
+          id: this.state.product.id,
+          quantity: this.state.product.quantity,
+          title: this.state.product.description,
+          unit_price: this.state.product.price,
+          tangible: true
+        }
+      ]
+    } 
+    return postTransaction(TransactionSpec(formattedTransaction))
+      .then(transation => console.log(transation))
+      .catch(err => console.log(err))
+    
   }
 
   setStateCustomer = ({ id, name, value }) => {
@@ -97,7 +110,7 @@ export default class Order extends Component {
     return this.setState({ 
       [id]: { 
         ...this.state[id], 
-        name: this.state.name,
+        name: this.state.customer.name,
         address: { ...this.state[id].address, [name]: value } 
       } 
     }) 
@@ -265,14 +278,14 @@ export default class Order extends Component {
 
     return (<main className="main-container">
         <div className="header-main-order">
-          <h1>Finalizar Compra {this.state.card_hash}</h1>
+          <h1>Finalizar Compra </h1>
         </div>
         <div className="body-main-order">
           <div className="body-content-order">
 
             <div className="dropDown">
               <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('customer')}>
-                <h2 className="dropDown-text">Dados Pessoais</h2>
+                <h2 className="dropDown-text">Dados Pessoais </h2>
               </div>
               <div className="dropDown-body">
                 {this.renderCustomerForm()}
@@ -311,6 +324,7 @@ export default class Order extends Component {
                    <h3>R$ { price }</h3>
                    <p><strong>Vendedor </strong> {product.salesman}</p>
                    <p><strong>Estado </strong> {product.situation}</p>
+                   <p><strong>Descrição </strong> {product.information}</p>
                  </div>
                 </div>
                 <div className="product-body">

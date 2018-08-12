@@ -15,7 +15,7 @@ export default class Card extends Component {
     <Fragment>
       <div className="information-content">
       <img  className="icon" src={require('../../assets/img/icons/creditcard-flat.png')} alt="credit-card"/>
-        <h3  className="information-text">Até 03x Sem Juros</h3>
+        <h3  className="information-text">Pague no Cartão</h3>
       </div>
       <div className="information-content">
         <img className="icon" src={require('../../assets/img/icons/transpo.png')} alt="shipping" />
@@ -23,7 +23,7 @@ export default class Card extends Component {
         </div>
       <div className="information-content">
         <img className="icon" src={require('../../assets/img/icons/wallet-flat.png')} alt="cash-boleto" />
-        <h3 className="information-text">À vista no boleto bancário</h3>
+        <h3 className="information-text">Economia na compra</h3>
       </div>
     </Fragment>
   )
