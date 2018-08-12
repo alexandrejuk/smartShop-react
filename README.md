@@ -12,9 +12,9 @@ O SmartShop é uma aplicação web construida em React.
 5. Abrir o browser: http://localhost:3000
 
 ## Screenshot
-
+![smartShop](./screen-shot/screen-shot.png)
    
 ## Author
-[Alexandre dos Santos Soares](https://github.com/alexandrejuk)
+| [<img alt="" width="230" height="230" class="avatar width-full rounded-2" src="https://avatars1.githubusercontent.com/u/20932604?s=460&amp;v=4"><br><sub>Alexandre dos Santos</sub>](https://github.com/alexandrejuk) |
+| :---: |
 
-## License
