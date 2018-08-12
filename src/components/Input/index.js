@@ -9,9 +9,7 @@ export default class Input extends Component {
     this.handleBlur = this.handleBlur.bind(this)
   }
 
-  handleBlur = $event => {
-    this.props.onBlur($event)
-  }
+  handleBlur = $event => this.props.onBlur($event)
 
   render() { 
     const { 
@@ -41,9 +39,9 @@ Input.propTypes = {
   label: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
   type: PropTypes.oneOf([
     'text',
     'email',
-    'phone',
   ]),
 }

@@ -13,7 +13,11 @@ export default class Home extends Component {
       products: [],
       loading: true,
     }
-    this.fetchProducts();
+  
+  }
+
+  componentDidMount() {
+    return this.fetchProducts();
   }
 
   fetchProducts() {

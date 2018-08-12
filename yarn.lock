@@ -5661,6 +5661,10 @@ node-fetch@^1.0.1:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
+node-fetch@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.2.0.tgz#4ee79bde909262f9775f731e3656d0db55ced5b5"
+
 node-forge@0.7.5:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.5.tgz#6c152c345ce11c52f465c2abd957e8639cd674df"
@@ -6004,6 +6008,10 @@ package-json@^4.0.0:
     registry-auth-token "^3.0.1"
     registry-url "^3.0.3"
     semver "^5.1.0"
+
+pagarme@^3.7.3:
+  version "3.7.3"
+  resolved "https://registry.yarnpkg.com/pagarme/-/pagarme-3.7.3.tgz#c95f390d498ad1f3dbe220f83adc724ef1b4c776"
 
 pako@~1.0.5:
   version "1.0.6"
