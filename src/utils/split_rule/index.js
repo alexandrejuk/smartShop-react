@@ -1,6 +1,6 @@
 const split_rules = [
   {
-    recipient_id: 're_cjkk1t9nl016iv96dj4pnoovj',
+    recipient_id: 're_cjkq8x1mt001xia6d5tj43gpq',
     percentage: 60,
     liable: true,
     charge_processing_fee: true
@@ -12,7 +12,7 @@ const split_rules = [
     charge_processing_fee: true
   },
   {
-    recipient_id: 're_cjkod9sep0087a96drzde58ty',
+    recipient_id: 're_cjkk1t9nl016iv96dj4pnoovj',
     percentage: 15,
     liable: true,
     charge_processing_fee: true
