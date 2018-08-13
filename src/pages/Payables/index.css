@@ -1,0 +1,29 @@
+.main-payables {
+  width: 1080px;
+  margin: 20px auto;
+}
+.card-payables {
+  margin-top: 20px;
+  border: 1px solid #e1e1e1;
+}
+.card-header-payables {
+  background: #e7e7e7;
+  border: 2px solid #e7e7e7;
+  padding: 20px 35px;
+}
+.title-payables {
+  color: #7e7e88;
+}
+.card-body-payables {
+  background: #fff;
+  padding: 20px;
+}
+.recipient {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #ebeaea;
+  margin-top: 10px;
+  border-radius: 4px;
+}

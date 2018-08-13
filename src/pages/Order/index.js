@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import './index.css'
-
+import  { Redirect } from 'react-router-dom'
 import RemoveMask from '../../utils/replaceMask'
 import { isEmpty }  from 'ramda'
-
+import loadingImage from '../../assets/img/icons/simplespin.gif'
 // services
 import fetchCardHash from '../../services/cardHash'
 import { fetchProduct } from '../../services/product'
@@ -73,6 +73,11 @@ export default class Order extends Component {
         card_expiration_date: false,
         card_holder_name: false,
       },
+      redirectPage: {
+        redirect: false, 
+        transaction_id: null,
+      },
+      loading: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClickDropDown = this.handleClickDropDown.bind(this)
@@ -101,6 +106,7 @@ export default class Order extends Component {
   }
 
   sendNewTransaction() {
+    this.setState({ loading: true })
     const formattedTransaction = {
       ...this.state,
       amount: this.state.product.price,
@@ -115,9 +121,18 @@ export default class Order extends Component {
       ]
     } 
     return postTransaction(TransactionSpec(formattedTransaction))
-      .then(transation => console.log(transation))
+      .then(transation => {
+        this.setState({ redirectPage: { redirect: true, transaction_id: transation.id }})
+      })
       .catch(err => console.log(err))
     
+  }
+
+  renderRedirect = () => {
+    const { redirect, transaction_id } = this.state.redirectPage
+    if(redirect) {
+      return <Redirect to={`/payables/${transaction_id}`} />
+    }
   }
 
   setStateCustomer = ({ id, name, value }) => {
@@ -362,70 +377,78 @@ export default class Order extends Component {
   }
 
   render() {
-    const { product } = this.state
+    const { product, loading } = this.state
     const imagePath = product.imagePath ? product.imagePath : 'default.png'
     const price = product.price ? ParsePrice(product.price) : '0,00'
 
     return (<main className="main-container">
         <div className="header-main-order">
-          <h1>Finalizar Compra </h1>
+          <h1>Finalizar Compra</h1>
         </div>
-        <div className="body-main-order">
-          <div className="body-content-order">
-
-            <div className="dropDown">
-              <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('customer')}>
-                <h2 className="dropDown-text">Dados Pessoais </h2>
-              </div>
-              <div className="dropDown-body">
-                {this.renderCustomerForm()}
-              </div>
+        { 
+          loading 
+          ?           
+            <div className="body-content-order"> 
+              <img src={loadingImage} alt="loading"/>
             </div>
+          :
+            <div className="body-main-order">
+            <div className="body-content-order">
 
-            <div className="dropDown">
-              <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('billing')}>
-                <h2 className="dropDown-text">Endereço</h2>
-              </div>
-              <div className="dropDown-body">
-                {this.renderBillingForm()}
-              </div>
-            </div>
-
-            <div className="dropDown">
-              <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('payment')}>
-                <h2 className="dropDown-text">Pagamento</h2>
-              </div>
-              <div className="dropDown-body">
-                {this.renderPaymentForm()}
-              </div>
-            </div>
-          </div>
-
-          <div className="body-content-order">
-            <div className="dropDown">
-              <div className="dropDown-header">
-                <h2 className="dropDown-text">Item da Compra</h2>
-              </div>
-              <div className="dropDown-body">
-                <div className="product-header">
-                  <img className="product" src={require(`../../assets/img/products/${imagePath}`)} alt="item-product" />
-                 <div className="product-description">
-                   <h2><strong>{ product.description }</strong></h2>
-                   <h3>R$ { price }</h3>
-                   <p><strong>Vendedor </strong> {product.salesman}</p>
-                   <p><strong>Estado </strong> {product.situation}</p>
-                   <p><strong>Descrição </strong> {product.information}</p>
-                 </div>
+              <div className="dropDown">
+                <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('customer')}>
+                  <h2 className="dropDown-text">Dados Pessoais </h2>
                 </div>
-                <div className="product-body">
-                  <h1>Total</h1>
-                  <h1>R$ { price }</h1>
+                <div className="dropDown-body">
+                  {this.renderCustomerForm()}
+                </div>
+              </div>
+
+              <div className="dropDown">
+                <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('billing')}>
+                  <h2 className="dropDown-text">Endereço</h2>
+                </div>
+                <div className="dropDown-body">
+                  {this.renderBillingForm()}
+                </div>
+              </div>
+
+              <div className="dropDown">
+                <div className="dropDown-header" onClick={() => this.handleClickDropDownHeader('payment')}>
+                  <h2 className="dropDown-text">Pagamento</h2>
+                </div>
+                <div className="dropDown-body">
+                  {this.renderPaymentForm()}
                 </div>
               </div>
             </div>
+
+            <div className="body-content-order">
+              <div className="dropDown">
+                <div className="dropDown-header">
+                  <h2 className="dropDown-text">Item da Compra</h2>
+                </div>
+                <div className="dropDown-body">
+                  <div className="product-header">
+                    <img className="product" src={require(`../../assets/img/products/${imagePath}`)} alt="item-product" />
+                  <div className="product-description">
+                    <h2><strong>{ product.description }</strong></h2>
+                    <h3>R$ { price }</h3>
+                    <p><strong>Vendedor </strong> {product.salesman}</p>
+                    <p><strong>Estado </strong> {product.situation}</p>
+                    <p><strong>Descrição </strong> {product.information}</p>
+                  </div>
+                  </div>
+                  <div className="product-body">
+                    <h1>Total</h1>
+                    <h1>R$ { price }</h1>
+                  </div>
+                </div>
+              </div>
+            </div> 
           </div> 
-
-        </div>
+        }
+        {this.renderRedirect()}
       </main>)
   }
 }

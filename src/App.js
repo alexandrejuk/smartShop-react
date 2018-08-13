@@ -7,6 +7,7 @@ import Header from './components/Header'
 // pages
 import Home from './pages/Home'
 import Order from './pages/Order'
+import Payables from './pages/Payables'
 
 const App = props => (
   <div>
@@ -14,6 +15,7 @@ const App = props => (
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/order/product/:id" component={Order} />
+      <Route path="/payables/:id" component={Payables} />
     </Switch>
   </div>
 )

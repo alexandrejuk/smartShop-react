@@ -15,7 +15,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "storybook": "start-storybook -p 9009 -s public",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

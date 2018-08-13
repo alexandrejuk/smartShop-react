@@ -5,7 +5,7 @@ O SmartShop é uma aplicação web construida em React.
 ## Instalação
 
 1. Clone o repositório: 
-2. Depois acesse o diretório: cd smartShop
+2. Depois acesse o diretório: cd smartShop-react
 3. Instalar os packages necessários: npm install ou yarn
 4. Executar o banco de dados com json-server: json-server db/db.json -p 3002
 4. Executar o projeto: yarn start
