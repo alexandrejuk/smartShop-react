@@ -8,6 +8,7 @@ import Header from './components/Header'
 import Home from './pages/Home'
 import Order from './pages/Order'
 import Payables from './pages/Payables'
+import ErrorTransaction from './pages/ErrorTransaction'
 
 const App = props => (
   <div>
@@ -16,6 +17,7 @@ const App = props => (
       <Route exact path="/" component={Home} />
       <Route path="/order/product/:id" component={Order} />
       <Route path="/payables/:id" component={Payables} />
+      <Route path="/error-transaction" component={ErrorTransaction} />
     </Switch>
   </div>
 )

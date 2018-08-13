@@ -10,15 +10,20 @@
 .body-content-order {
   width: 540px;
   margin: 0 auto;
+  
 }
 .dropDown {
   margin: 20px;
 }
 .dropDown-header {
   background: #e7e7e7;
-  border: 2px solid #e7e7e7;
+  box-shadow: 0 1px 1px 0 #e7e7e7;
   padding: 20px 35px;
 }
+.dropDown-header:hover {
+  background: #ececec;
+}
+
 .dropDown-text {
   color: #9f9fae;
 }
@@ -26,6 +31,7 @@
   background: #fff;
   display: flex;
   flex-wrap: wrap;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
 }
 .product-header, .product-body {
   width: 500px;
@@ -45,4 +51,9 @@
 }
 .product-description {
   margin-left: 20px;
+}
+.body-content-load {
+  width: 1080px;
+  margin: 40px auto;
+  text-align: center;
 }

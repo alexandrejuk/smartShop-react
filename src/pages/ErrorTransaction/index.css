@@ -1,0 +1,11 @@
+ .body-main-error {
+  width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+}
+.body-error {
+  margin-top: 20px;
+  padding: 40px;
+  border-radius: 4px;
+  border:1px solid #e1e1e1;
+}

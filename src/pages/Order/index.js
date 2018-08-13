@@ -78,6 +78,7 @@ export default class Order extends Component {
         transaction_id: null,
       },
       loading: false,
+      error: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClickDropDown = this.handleClickDropDown.bind(this)
@@ -124,7 +125,7 @@ export default class Order extends Component {
       .then(transation => {
         this.setState({ redirectPage: { redirect: true, transaction_id: transation.id }})
       })
-      .catch(err => console.log(err))
+      .catch(err => this.setState({ error: true }))
     
   }
 
@@ -132,6 +133,9 @@ export default class Order extends Component {
     const { redirect, transaction_id } = this.state.redirectPage
     if(redirect) {
       return <Redirect to={`/payables/${transaction_id}`} />
+    }
+    if(this.state.error) {
+      return <Redirect to={`/error-transaction`} />
     }
   }
 
@@ -388,8 +392,9 @@ export default class Order extends Component {
         { 
           loading 
           ?           
-            <div className="body-content-order"> 
+            <div className="body-content-load"> 
               <img src={loadingImage} alt="loading"/>
+              <h3>Processando transação...</h3>
             </div>
           :
             <div className="body-main-order">
@@ -448,7 +453,7 @@ export default class Order extends Component {
             </div> 
           </div> 
         }
-        {this.renderRedirect()}
+        { this.renderRedirect() }
       </main>)
   }
 }
