@@ -3,9 +3,7 @@ import './index.css'
 
 import ParsePrice from '../../utils/price'
 
-import {  
-  getPayables,
-} from '../../services/payables'
+import { getPayableTransaction } from '../../services/payables'
 import getRecipients from '../../services/recipients'
 
 export default class Payables extends Component {
@@ -15,13 +13,23 @@ export default class Payables extends Component {
     this.state = {
       payables: [],
       recipients: [],
+      loadPayable: true,
+      loadRecipient: true,
     }
   
   }
 
   componentDidMount() {
-    getPayables().then(payables => this.setState({ payables }))
-    getRecipients().then(recipients => this.setState({ recipients }))
+    
+    getPayableTransaction(this.props.match.params.id)
+      .then(payables => 
+        this.setState({ loadPayable: false, payables })
+      )
+
+    getRecipients()
+      .then(recipients => 
+        this.setState({ loadRecipient: false, recipients })
+      )
   }
 
   sumAmountValue = (prev, acc) => prev + acc.amount
@@ -30,7 +38,6 @@ export default class Payables extends Component {
     const transactionID = parseInt(this.props.match.params.id)
     const { payables, recipients } = this.state
     const payableLastTransaction = payables.filter(payable => payable.transaction_id === transactionID)
-    
     return recipients
       .map(recipient => {
         const payableRecipient = payableLastTransaction.find(pay => pay.recipient_id === recipient.id)
@@ -44,6 +51,7 @@ export default class Payables extends Component {
   }
 
   render() {
+    const { loadPayable, loadRecipient } = this.state
     return( 
       <main className="main-payables">
 
@@ -59,16 +67,19 @@ export default class Payables extends Component {
           <div className="card-body-payables">
             <h3>Recebedores / 3</h3>
               {
-                this.payableRecipients()
-                  .map(
-                    recipient => 
-                      <div key={recipient.id}>
-                        <div className="recipient">
-                          <h4>{recipient.name}</h4>
-                           <h4>R$ {ParsePrice(recipient.amount)}</h4>
+                (loadPayable && loadPayable)
+                ? <h4>Carregando...</h4>
+                :
+                  this.payableRecipients()
+                    .map(
+                      recipient => 
+                        <div key={recipient.id}>
+                          <div className="recipient">
+                            <h4>{recipient.name}</h4>
+                            <h4>R$ {ParsePrice(recipient.amount)}</h4>
+                          </div>
                         </div>
-                      </div>
-                )
+                    )
               }
           </div>
         </div>

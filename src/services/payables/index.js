@@ -5,8 +5,8 @@ const url = 'https://api.pagar.me/1/payables'
 
 const getPayables = () => 
   axios
-  .get(`${url}?api_key=${api_pagar_me}`)
-  .then(res => res.data)
+    .get(`${url}?api_key=${api_pagar_me}`)
+    .then(res => res.data)
 
 const getPayableTransaction = transaction_id => 
   axios
