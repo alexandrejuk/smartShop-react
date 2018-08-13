@@ -9,9 +9,21 @@ export default class Input extends Component {
   constructor(props) {
     super(props);
     this.handleBlur = this.handleBlur.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+
   }
 
-  handleBlur = $event => this.props.onChange($event)
+  handleBlur = $event => this.props.onBlur($event)
+  handleChange = $event => this.props.onChange($event)
+
+  renderMessageError = (inputValidation, label) => {
+    if(!inputValidation) return;
+    return ( 
+      <span className="messageError">
+        <small>{label} é obrigatório!</small>
+      </span>
+    )
+  }
 
   render() { 
     const { 
@@ -23,7 +35,7 @@ export default class Input extends Component {
       placeholder,
       id,
       value,
-      findzipcode
+      validation,
     } = this.props
     return ( 
       <div className="inputWrapper">
@@ -36,9 +48,12 @@ export default class Input extends Component {
           type={type} 
           value={value}
           placeholder={placeholder}
-          onChange={this.handleBlur}
-          onBlur={findzipcode}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
           />
+          <div className="validation">
+           {this.renderMessageError(validation, label)}
+          </div>
       </div>
      )
   }
@@ -51,7 +66,9 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   mask: PropTypes.string,
+  validation: PropTypes.bool,
   type: PropTypes.oneOf([
     'text',
     'email',

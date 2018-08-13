@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import './index.css'
 
+import RemoveMask from '../../utils/replaceMask'
+import { isEmpty }  from 'ramda'
+
 // services
 import fetchCardHash from '../../services/cardHash'
 import { fetchProduct } from '../../services/product'
@@ -22,7 +25,7 @@ export default class Order extends Component {
     this.state = {
       product: {},
       amount: 0,
-      card_hash: null,
+      card_hash: false,
       card_number: '',
       card_cvv: '',
       card_expiration_date: '',
@@ -55,12 +58,27 @@ export default class Order extends Component {
         customer: true,
         billing: false,
         payment: false,
-      }
+      },
+      formValidation: {
+        name: false,
+        email: false,
+        state: false,
+        city: false,
+        neighborhood: false,
+        street: false,
+        street_number: false,
+        zipcode: false,
+        card_number: false,
+        card_cvv: false,
+        card_expiration_date: false,
+        card_holder_name: false,
+      },
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClickDropDown = this.handleClickDropDown.bind(this)
     this.handleClickDropDownHeader = this.handleClickDropDownHeader.bind(this)
     this.handleSave = this.handleSave.bind(this)
+    this.handleValidation = this.handleValidation.bind(this)
   }
 
   componentDidMount() {
@@ -172,6 +190,68 @@ export default class Order extends Component {
     )
   }
 
+  isEmpty = ({ name, value }) => {
+    switch (name) {
+      case 'zipcode':
+        return RemoveMask(value).length >= 8
+      case 'card_number':
+        return RemoveMask(value).length >= 16
+      case 'card_cvv':
+        return RemoveMask(value).length >= 3
+      case 'card_expiration_date':
+        return RemoveMask(value).length >= 4
+      default:
+        return value.length >= 2
+    }
+  }
+
+  isEmptyToSendTransaction = () => {
+    let disabled = false;
+    const formCheck = {
+      name: this.state.customer.name,
+      email: this.state.customer.email,
+      state: this.state.billing.address.state,
+      city: this.state.billing.address.city,
+      neighborhood: this.state.billing.address.neighborhood,
+      street: this.state.billing.address.street,
+      street_number: this.state.billing.address.street_number,
+      zipcode: this.state.billing.address.zipcode,
+      card_number: this.state.card_number,
+      card_holder_name: this.state.card_holder_name,
+      card_cvv: this.state.card_cvv,
+      card_expiration_date: this.state.card_expiration_date,
+    }
+    for(let key in formCheck) {
+      if(isEmpty(formCheck[key])) {
+        return disabled = true
+      }
+    }
+    return disabled
+  }
+
+  setStateValidation = (name, value) => (
+    this.setState({ 
+      formValidation: { ...this.state.formValidation, [name]: value } 
+    })
+  )
+
+  handleValidation($event) {
+    const { name } = $event.target
+    if(this.isEmpty($event.target)) {
+      return this.setStateValidation(name, false)
+    }
+    return this.setStateValidation(name, true)
+  }
+
+  renderButtonSubmit = () => {
+    for(let key in this.state.formValidation) {
+      if(!this.state.formValidation[key]) {
+        return false
+      }
+      return true
+    }
+  }
+
   renderCustomerForm = () => {
     if (this.state.dropDown.customer) {
       return (
@@ -186,6 +266,8 @@ export default class Order extends Component {
               type={customer.type}
               value={this.state.customer[customer.input_name]}
               onChange={this.handleChange}
+              onBlur={this.handleValidation}
+              validation={this.state.formValidation[customer.input_name]}
             />
             )
           )}
@@ -212,6 +294,8 @@ export default class Order extends Component {
               mask={billing.mask}
               value={this.state.billing.address[billing.input_name]}
               onChange={this.handleChange}
+              onBlur={this.handleValidation}
+              validation={this.state.formValidation[billing.input_name]}
             />
             :
             <Input 
@@ -223,6 +307,8 @@ export default class Order extends Component {
               type={billing.type}
               value={this.state.billing.address[billing.input_name]}
               onChange={this.handleChange}
+              onBlur={this.handleValidation}
+              validation={this.state.formValidation[billing.input_name]}
             />
           )
           )}
@@ -249,6 +335,8 @@ export default class Order extends Component {
               placeholder={payment.placeholder}
               value={this.state[payment.input_name]}
               onChange={this.handleChange}
+              onBlur={this.handleValidation}
+              validation={this.state.formValidation[payment.input_name]}
             /> :
             <Input 
               key={payment.id}
@@ -261,10 +349,12 @@ export default class Order extends Component {
               value={this.state[payment.input_name]}
               mask={payment.mask}
               onChange={this.handleChange}
+              onBlur={this.handleValidation}
+              validation={this.state.formValidation[payment.input_name]}
             />
             )
-          )}
-          <Button value='payment' onClick={this.handleSave}>Finalizar Comprar</Button>
+          )}          
+          <Button value='payment' disabled={this.isEmptyToSendTransaction()} onClick={this.handleSave}>Finalizar Comprar</Button>
         </Fragment>
       )
     }

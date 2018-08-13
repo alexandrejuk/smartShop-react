@@ -15,13 +15,14 @@ export default class Button extends Component{
   }
 
   render () {
-    const { children } = this.props
-    return (<button className="button" onClick={this.handleClick}> { children } </button>)
+    const { children, disabled } = this.props
+    return (<button className="button" disabled={disabled} onClick={this.handleClick}> { children } </button>)
   }
 }
 
 Button.propTypes = {
   children: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
   value: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 }

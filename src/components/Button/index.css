@@ -16,11 +16,18 @@
 }
 .button:hover {
   opacity: .9;
-  border-bottom: 3px solid #004C75;
+  border-bottom-color:#004C75;
 }
 .button:focus {
   outline: none;
 }
 .button:active {
+  border-bottom-color:  #0083CA;
+}
+.button:disabled {
+  opacity: .65; 
+  cursor: not-allowed;
+}
+.button:disabled:hover {
   border-bottom-color:  #0083CA;
 }
